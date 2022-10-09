@@ -10,6 +10,7 @@
             "args": [],
             "cwd": "${workspaceFolder}/Unit02",
             "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
             "stopAtEntry": false
         },
         {
