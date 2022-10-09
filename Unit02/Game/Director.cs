@@ -41,7 +41,7 @@ namespace Unit02.Game
         }
 
         /// <summary>
-        /// Asks the user if they want to roll.
+        /// Asks the user if they want to play.
         /// </summary>
         public void GetInputs()
         {
@@ -52,7 +52,8 @@ namespace Unit02.Game
         }
 
         /// <summary>
-        /// Updates the player's score.
+        /// Updates the player's score and the card for the next round. 
+        /// If the player's guess was correct they are awarded 100 points, if they are incorrect they lose 75 points.
         /// </summary>
         public void DoUpdates()
         {
@@ -83,16 +84,16 @@ namespace Unit02.Game
             
             Console.WriteLine($"Your score is now: {_totalScore}");
         
-
+            // if score is 0, end the game
             _isPlaying = (_totalScore > 0);
 
-            // update so newCard is now the _firstCard for the next roundl
+            // update so newCard is now the _firstCard for the next round
             _firstCard = newCard;
 
         }
 
         /// <summary>
-        /// Displays the dice and the score. Also asks the player if they want to roll again. 
+        /// Displays the first card and asks the player for their guess of the next card
         /// </summary>
         public void DoOutputs()
         {
@@ -103,7 +104,6 @@ namespace Unit02.Game
             Console.WriteLine($"The card is: {_firstCard}");
             Console.Write($"Higher or lower? (h/l): ");
             _guess = Console.ReadLine();
-
 
         }
     }

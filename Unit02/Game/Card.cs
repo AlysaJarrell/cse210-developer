@@ -4,17 +4,16 @@ using System;
 namespace Unit02.Game
 {
     /// <summary>
-    /// A small cube with a different number of spots on each of its six sides.
+    /// A card that has a value of 1-13.
     /// 
-    /// The responsibility of Die is to keep track of its currently rolled value and the points its
-    /// worth.
+    /// The responsibility of Card is to keep track of its currently drawn value.
     /// </summary> 
     public class Card
     {
         public int value;
         
         /// <summary>
-        /// Constructs a new instance of Die.
+        /// Constructs a new instance of Card.
         /// </summary>
         public Card()
         {
@@ -22,8 +21,7 @@ namespace Unit02.Game
         }
 
         /// <summary>
-        /// Generates a new random value and calculates the points for the die. Fives are 
-        /// worth 50 points, ones are worth 100 points, everything else is worth 0 points.
+        /// Generates a new random value.
         /// </summary>
         public void Draw()
         {
