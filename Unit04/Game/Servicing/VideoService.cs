@@ -13,10 +13,10 @@ namespace Unit04.Game.Services
     /// </summary>
     public class VideoService
     {
-        private int _cellSize = 15;
+        private int _cellSize = 25;
         private string _caption = "";
-        private int _width = 640;
-        private int _height = 480;
+        private int _width = 1000;
+        private int _height = 750;
         private int _frameRate = 0;
         private bool _debug = false;
 

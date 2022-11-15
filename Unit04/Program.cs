@@ -15,16 +15,17 @@ namespace Unit04
     class Program
     {
         private static int FRAME_RATE = 12;
-        private static int MAX_X = 900;
-        private static int MAX_Y = 600;
-        private static int CELL_SIZE = 15;
-        private static int FONT_SIZE = 15;
+        private static int MAX_X = 1500;
+        private static int MAX_Y = 800;
+        private static int CELL_SIZE = 25;
+        private static int FONT_SIZE = 25;
         private static int COLS = MAX_X/CELL_SIZE;
         private static int ROWS = MAX_Y/CELL_SIZE;
-        private static string CAPTION = "Robot Finds Kitten";
-        private static string DATA_PATH = "Data/messages.txt";
+        private static string CAPTION = "Greed";
+        // private static string DATA_PATH = "Data/messages.txt";
         private static Color WHITE = new Color(255, 255, 255);
         private static int DEFAULT_ARTIFACTS = 40;
+        private static Point VELOCITY = new Point(0,5);
 
 
         /// <summary>
@@ -38,7 +39,7 @@ namespace Unit04
 
             // create the banner
             Actor banner = new Actor();
-            banner.SetText("");
+            banner.SetText("0");
             banner.SetFontSize(FONT_SIZE);
             banner.SetColor(WHITE);
             banner.SetPosition(new Point(CELL_SIZE, 0));
@@ -49,23 +50,24 @@ namespace Unit04
             robot.SetText("#");
             robot.SetFontSize(FONT_SIZE);
             robot.SetColor(WHITE);
-            robot.SetPosition(new Point(MAX_X / 2, MAX_Y / 2));
+            robot.SetPosition(new Point(MAX_X / 2, MAX_Y - CELL_SIZE ));
             cast.AddActor("robot", robot);
 
-            // load the messages
-            List<string> messages = File.ReadAllLines(DATA_PATH).ToList<string>();
+            // load the text options for the artifacts
+            List<string> textOptions = new List<string>{"O", "*"};
 
             // create the artifacts
             Random random = new Random();
             for (int i = 0; i < DEFAULT_ARTIFACTS; i++)
             {
-                string text = ((char)random.Next(33, 126)).ToString();
-                string message = messages[i];
+                int textIndex = random.Next(0,2);
+                string text = textOptions[textIndex];
 
                 int x = random.Next(1, COLS);
                 int y = random.Next(1, ROWS);
                 Point position = new Point(x, y);
                 position = position.Scale(CELL_SIZE);
+
 
                 int r = random.Next(0, 256);
                 int g = random.Next(0, 256);
@@ -77,7 +79,8 @@ namespace Unit04
                 artifact.SetFontSize(FONT_SIZE);
                 artifact.SetColor(color);
                 artifact.SetPosition(position);
-                artifact.SetMessage(message);
+                artifact.SetValue(text);
+                artifact.SetVelocity(VELOCITY);
                 cast.AddActor("artifacts", artifact);
             }
 

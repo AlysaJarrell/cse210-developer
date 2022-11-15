@@ -1,171 +1,78 @@
-using System.Collections.Generic;
-using Raylib_cs;
-using Unit04.Game.Casting;
-
-
-namespace Unit04.Game.Services
+namespace Unit04.Game.Casting
 {
     /// <summary>
-    /// <para>Outputs the game state.</para>
+    /// <para>A distance from a relative origin (0, 0).</para>
     /// <para>
-    /// The responsibility of the class of objects is to draw the game state on the screen. 
+    /// The responsibility of Point is to hold and provide information about itself. Point has a few 
+    /// convenience methods for adding, scaling, and comparing them.
     /// </para>
     /// </summary>
-    public class VideoService
+    public class Point
     {
-        private int _cellSize = 15;
-        private string _caption = "";
-        private int _width = 640;
-        private int _height = 480;
-        private int _frameRate = 0;
-        private bool _debug = false;
+        private int _x = 0;
+        private int _y = 0;
 
         /// <summary>
-        /// Constructs a new instance of KeyboardService using the given cell size.
+        /// Constructs a new instance of Point using the given x and y values.
         /// </summary>
-        /// <param name="cellSize">The cell size (in pixels).</param>
-        public VideoService(string caption, int width, int height, int cellSize, int frameRate, 
-                bool debug)
+        /// <param name="x">The given x value.</param>
+        /// <param name="y">The given y value.</param>
+        public Point(int x, int y)
         {
-            this._caption = caption;
-            this._width = width;
-            this._height = height;
-            this._cellSize = cellSize;
-            this._frameRate = frameRate;
-            this._debug = debug;
+            this._x = x;
+            this._y = y;
         }
 
         /// <summary>
-        /// Closes the window and releases all resources.
+        /// Adds the given point to this one by summing the x and y values.
         /// </summary>
-        public void CloseWindow()
+        /// <param name="other">The point to add.</param>
+        /// <returns>The sum as a new Point.</returns>
+        public Point Add(Point other)
         {
-            Raylib.CloseWindow();
+            int x = this._x + other.GetX();
+            int y = this._y + other.GetY();
+            return new Point(x, y);
         }
 
         /// <summary>
-        /// Clears the buffer in preparation for the next rendering. This method should be called at
-        /// the beginning of the game's output phase.
+        /// Whether or not this Point is equal to the given one.
         /// </summary>
-        public void ClearBuffer()
+        /// <param name="other">The point to compare.</param>
+        /// <returns>True if both x and y are equal; false if otherwise.</returns>
+        public bool Equals(Point other)
         {
-            Raylib.BeginDrawing();
-            Raylib.ClearBackground(Raylib_cs.Color.BLACK);
-            if (_debug)
-            {
-                DrawGrid();
-            }
+            return this._x == other.GetX() && this._y == other.GetY();
         }
 
         /// <summary>
-        /// Draws the given actor's text on the screen.
+        /// Gets the value of the x coordinate.
         /// </summary>
-        /// <param name="actor">The actor to draw.</param>
-        public void DrawActor(Actor actor)
+        /// <returns>The x coordinate.</returns>
+        public int GetX()
         {
-            string text = actor.GetText();
-            int x = actor.GetPosition().GetX();
-            int y = actor.GetPosition().GetY();
-            int fontSize = actor.GetFontSize();
-            Casting.Color c = actor.GetColor();
-            Raylib_cs.Color color = ToRaylibColor(c);
-            Raylib.DrawText(text, x, y, fontSize, color);
+            return _x;
         }
 
         /// <summary>
-        /// Draws the given list of actors on the screen.
+        /// Gets the value of the y coordinate.
         /// </summary>
-        /// <param name="actors">The list of actors to draw.</param>
-        public void DrawActors(List<Actor> actors)
+        /// <returns>The y coordinate.</returns>
+        public int GetY()
         {
-            foreach (Actor actor in actors)
-            {
-                DrawActor(actor);
-            }
-        }
-        
-        /// <summary>
-        /// Copies the buffer contents to the screen. This method should be called at the end of
-        /// the game's output phase.
-        /// </summary>
-        public void FlushBuffer()
-        {
-            Raylib.EndDrawing();
+            return _y;
         }
 
         /// <summary>
-        /// Gets the grid's cell size.
+        /// Scales the point by multiplying the x and y values by the provided factor.
         /// </summary>
-        /// <returns>The cell size.</returns>
-        public int GetCellSize()
+        /// <param name="factor">The scaling factor.</param>
+        /// <returns>A scaled instance of Point.</returns>
+        public Point Scale(int factor)
         {
-            return _cellSize;
+            int x = this._x * factor;
+            int y = this._y * factor;
+            return new Point(x, y);
         }
-
-        /// <summary>
-        /// Gets the screen's height.
-        /// </summary>
-        /// <returns>The height (in pixels).</returns>
-        public int GetHeight()
-        {
-            return _height;
-        }
-
-        /// <summary>
-        /// Gets the screen's width.
-        /// </summary>
-        /// <returns>The width (in pixels).</returns>
-        public int GetWidth()
-        {
-            return _width;
-        }
-
-        /// <summary>
-        /// Whether or not the window is still open.
-        /// </summary>
-        /// <returns>True if the window is open; false if otherwise.</returns>
-        public bool IsWindowOpen()
-        {
-            return !Raylib.WindowShouldClose();
-        }
-
-        /// <summary>
-        /// Opens a new window with the provided title.
-        /// </summary>
-        public void OpenWindow()
-        {
-            Raylib.InitWindow(_width, _height, _caption);
-            Raylib.SetTargetFPS(_frameRate);
-        }
-
-        /// <summary>
-        /// Draws a grid on the screen.
-        /// </summary>
-        private void DrawGrid()
-        {
-            for (int x = 0; x < _width; x += _cellSize)
-            {
-                Raylib.DrawLine(x, 0, x, _height, Raylib_cs.Color.GRAY);
-            }
-            for (int y = 0; y < _height; y += _cellSize)
-            {
-                Raylib.DrawLine(0, y, _width, y, Raylib_cs.Color.GRAY);
-            }
-        }
-
-        /// <summary>
-        /// Converts the given color to it's Raylib equivalent.
-        /// </summary>
-        /// <param name="color">The color to convert.</param>
-        /// <returns>A Raylib color.</returns>
-        private Raylib_cs.Color ToRaylibColor(Casting.Color color)
-        {
-            int r = color.GetRed();
-            int g = color.GetGreen();
-            int b = color.GetBlue();
-            int a = color.GetAlpha();
-            return new Raylib_cs.Color(r, g, b, a);
-        }
-
     }
 }

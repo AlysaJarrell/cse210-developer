@@ -13,7 +13,7 @@ namespace Unit04.Game.Services
     /// </summary>
     public class KeyboardService
     {
-        private int _cellSize = 15;
+        private int _cellSize = 25;
 
         /// <summary>
         /// Constructs a new instance of KeyboardService using the given cell size.
@@ -45,12 +45,14 @@ namespace Unit04.Game.Services
 
             if (Raylib.IsKeyDown(KeyboardKey.KEY_UP))
             {
-                dy = -1;
+                // not allowed to move upwards
+                dy = 0;
             }
 
             if (Raylib.IsKeyDown(KeyboardKey.KEY_DOWN))
             {
-                dy = 1;
+                // not allowed to move downwards
+                dy = 0;
             }
 
             Point direction = new Point(dx, dy);
