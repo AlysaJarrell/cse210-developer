@@ -62,13 +62,13 @@ namespace Unit04
             {
                 int textIndex = random.Next(0,2);
                 string text = textOptions[textIndex];
-
+                // places the artifact
                 int x = random.Next(1, COLS);
                 int y = random.Next(1, ROWS);
                 Point position = new Point(x, y);
                 position = position.Scale(CELL_SIZE);
 
-
+                // gives the artifact a random color
                 int r = random.Next(0, 256);
                 int g = random.Next(0, 256);
                 int b = random.Next(0, 256);

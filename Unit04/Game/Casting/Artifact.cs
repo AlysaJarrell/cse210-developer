@@ -1,8 +1,8 @@
 namespace Unit04.Game.Casting{
         /// <summary>
-        /// <para>An item of cultural or historical interest.</para>
+        /// <para>An item of interest.</para>
         /// <para>
-        /// The responsibility of an Artifact is to provide a message about itself.
+        /// The responsibility of an Artifact is to provide a value for itself.
         /// </para>
         /// </summary>
     class Artifact : Actor{
